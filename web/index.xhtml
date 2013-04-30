@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>PrimePush - Counter</title>
+        
+        <script>
+            function handleMessage(msg) {
+                msg.severity = 'info';
+                growl.show([msg]);
+            }
+        </script>
+    </h:head>
+    <h:body>
+        
+        <h:form id="form">
+            <p:commandButton value="Click" actionListener="#{globalCounter.increment()}" />
+        </h:form>
+
+        <p:growl id="pushedNotifications" for="socketForNotifications"
+                 widgetVar="growl" globalOnly="false"
+                 life="30000" showDetail="true" showSummary="true" escape="false"/>
+        
+        <h:outputScript library="primefaces" name="push/push.js" target="head" />
+        <p:socket onMessage="handleMessage" channel="/counter" />
+        
+    </h:body>
+</html>
+
